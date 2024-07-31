@@ -1,0 +1,49 @@
+def caesar_cipher(text, shift, encrypt=True):
+  """
+  Encrypts or decrypts a given text using the Caesar Cipher with a specified shift.
+
+  Args:
+    text: The text to be encrypted or decrypted.
+    shift: The shift value.
+    encrypt: True for encryption, False for decryption.
+
+  Returns:
+    The encrypted or decrypted text.
+  """
+
+  result = ""
+  for char in text:
+    if char.isalpha():
+      offset = ord('A') if char.isupper() else ord('a')
+      shifted_char = chr((ord(char) - offset + (shift if encrypt else -shift) % 26) % 26 + offset)
+      result += shifted_char
+    else:
+      result += char
+  return result
+
+def main():
+  while True:
+    choice = input("Do you want to (E)ncrypt or (D)ecrypt? ").upper()
+    if choice not in ['E', 'D']:
+      print("Invalid choice! Please choose 'E' for encrypt or 'D' for decrypt.")
+      continue
+
+    text = input("Enter your message: ")
+    try:
+      shift = int(input("Enter shift value: "))
+    except ValueError:
+      print("Invalid shift value! Please enter an integer.")
+      continue
+
+    if choice == 'E':
+      encrypted_text = caesar_cipher(text, shift)
+      print("Encrypted message:", encrypted_text)
+    else:
+      decrypted_text = caesar_cipher(text, shift, encrypt=False)
+      print("Decrypted message:", decrypted_text)
+
+    if input("Do you want to continue? (y/n) ").lower() != 'y':
+      break
+
+if __name__ == "__main__":
+  main()
